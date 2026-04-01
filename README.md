@@ -20,28 +20,43 @@ Step 6: Terminate the program.
 
 ## PROGRAM:
 ~~~
-clc; % clear screen
-close all; % close all figure windows
-wc=input('enter the value of cut off frequency');
-N=input('enter the value of filter');
-alpha=(N-1)/2;
-eps=0.001;
-%Low Pass Filter Coefficient
-n=0:1:N-1;
-hd=sin(wc*(n-alpha+eps))./(pi*(n-alpha+eps));
-%Bartlett Window Sequence
-n=0:1:N-1;
-wh=1-2*abs(n-alpha)/N
-hn=hd.*wh;
-% Plot the Low Pass Filter with Hanning Window Technique
-w=0:0.01:pi;
-h=freqz(hn,1,w);
-plot(w/pi,abs(h),'ms');
+clc;            % Clear command window
+clear all;      % Clear workspace variables
+close all;      % Close all figure windows
+
+% Input parameters
+wc = input('Enter the value of cutoff frequency: ');
+N  = input('Enter the order (length) of the filter: ');
+
+alpha = (N-1)/2;
+eps = 0.001;
+
+% High Pass Filter Ideal Impulse Response
+n = 0:N-1;
+hd = (sin(pi*(n - alpha + eps)) - sin(wc*(n - alpha + eps))) ./ (pi*(n - alpha + eps));
+
+% Hanning Window Sequence
+wh = 0.5 - 0.5*cos((2*pi*n)/(N-1));
+
+% Windowed Filter Coefficients
+hn = hd .* wh;
+
+% Frequency Response
+w = 0:0.01:pi;
+h = freqz(hn,1,w);
+
+% Plot the Frequency Response
+figure;
+plot(w/pi, abs(h), 'm','LineWidth',2);
+xlabel('Normalized Frequency (\times\pi rad/sample)');
+ylabel('Magnitude');
+title('High Pass FIR Filter using Hanning Window');
+grid on;
 ~~~
 ## OUTPUT:
-<img width="694" height="517" alt="image" src="https://github.com/user-attachments/assets/17b8d678-ca77-4b55-9897-2064e765dfcb" />
+![WhatsApp Image 2026-04-01 at 11 39 09 AM](https://github.com/user-attachments/assets/2bdf9433-2b31-414a-9d02-c2fe8fd31371)
 
 
 ## RESULT:
-![WhatsApp Image 2026-03-25 at 7 32 24 PM](https://github.com/user-attachments/assets/ab525924-0af0-40f0-8faa-d8484c5a1cdf)
+![WhatsApp Image 2026-04-01 at 10 31 03 PM](https://github.com/user-attachments/assets/4f1bc609-be2e-439d-999d-ea96f95962b2)
 
